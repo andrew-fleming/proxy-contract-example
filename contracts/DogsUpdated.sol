@@ -1,24 +1,16 @@
 pragma solidity 0.5.16;
 
-import './Storage.sol';
+import './Dogs.sol';
 
-contract Dogs is Storage {
-
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
+contract DogsUpdated is Dogs {
 
     constructor() public {
-        owner = msg.sender;
+        initialize(msg.sender);
     }
 
-    function getNumberOfDogs() public view returns(uint256) {
-        return _uintStorage['Dogs'];
+    function initialize(address _owner) public {
+        require(!_initialized);
+        owner = _owner;
+        _initialized = true;
     }
-
-    function setNumberOfDogs(uint256 toSet) public onlyOwner {
-        _uintStorage['Dogs'] = toSet;
-    }
-
 }
